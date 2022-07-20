@@ -12,13 +12,12 @@ const stdlib = loadStdlib();
     console.log(`Account ${addr} has been generated.`);
     console.log(`Account has been generated with ${await getBalance(acc)} tokens and address ${addr}`);
   
-    const isA = await ask.ask(`Are you deploying the contract?`,ask.yesno);
+    const isA = await ask.ask(`Are you deploying the contract? Y for yes, N for No`,ask.yesno);
 
-    if (isA) {
-        const maxAddr = parseInt(await ask.ask(`How many addresses may be added to the whitelist?`));
-        const tokPerAddress = parseInt(await ask.ask(`How many tokens may be claimed per address?`));
-    
-        const claimtok = await stdlib.launchToken(acc, "claimtok", "CLM");
+    if (isA) {  
+        const tokPerAddress = 1;
+        const maxAddr = 2;
+        const claimtok = await stdlib.launchToken(acc, "ReachReward", "RRD");
         acc.tokenAccept(claimtok.id);
         await claimtok.mint(acc, (maxAddr * tokPerAddress));
     
@@ -51,7 +50,7 @@ const stdlib = loadStdlib();
         const ctcAttacher = acc.contract(backend, ctcInfoA);
     
         // request add to whitelist
-        const addedToWhitelist = await ctcAttacher.a.UserAPI.addToWhitelist();
+        const addedToWhitelist = await ctcAttacher.a.B.addToWhitelist();
     
         if (!addedToWhitelist) {
           console.log(`Sorry, the contract has reached the maximum number of whitelisted addresses`);
@@ -64,7 +63,7 @@ const stdlib = loadStdlib();
         console.log(`Opting in to the token with ID ${tknid}...`);
         await acc.tokenAccept(tkn[1]);
     
-        const recTokens = await ctcAttacher.a.UserAPI.claimTokens();
+        const recTokens = await ctcAttacher.a.B.claimTokens();
         
         if (recTokens) {
           console.log(`Your tokens with ID ${tknid} have been claimed from the contract`);

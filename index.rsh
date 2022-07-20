@@ -43,7 +43,7 @@ export const main = Reach.App(() => {
   // const M2 = new Map(Null);
 
   A.publish().pay([0, [TotalTokens, ClaimToken]]);
-  commit;
+  commit();
 
   A.interact.fundContract();
   A.publish();
